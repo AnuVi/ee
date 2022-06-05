@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Kalkulaator</title>
+  </head>
+  <body>
+    <section class="wrp">
+      <h1 class="txt-cntr">Kuumaksete kalkulaator</h1>
+      <h4 class="bld">Teenus:</h4>
+      <ul id="js-pckt-lst" class="flx"></ul>
+      <hr>
+      <form id="js-form" method="post">
+        <div class="grid">
+          <section>
+            <h4 class="bld">Summa:</h4>
+            <br>
+            <div class="rng-wrp">
+              <div id="rangeValue" class="rng-vl" value=""></div>
+              <input type="range" min="" max="" value oninput="rangeValue.value=value">
+            </div>
+            <p class="flx_2">
+              <span>300 €</span>
+              <input type="number" id="js-pmnt-inpt2" name="pmnt-inpt" class="n-arrws" value=" " placeholder="-" min="300" max="25000"></input>
+              <span>25 000 €</span>
+            </p>
+            <section class="flx">
+              <fieldset class="flx-itm_fldset">
+                <label for="prd" class="bld">Periood: <span class="cmpl">*</span>
+                </label>
+                <select name="slct" id="js-prd-slct" required></select>
+              </fieldset>
+              <fieldset class="flx-itm_fldset">
+                <label for="smks" class="bld">Sissemakse(eur): <span class="cmpl">*</span>
+                </label>
+                <input type="number" id="js-pmnt" name="pmnt" required value=" " placeholder="-" min="300" max="25000" class="n-arrws">
+              </fieldset>
+            </section>
+          </section><!---.flex-->
+          <section>
+            <table>
+              <tbody>
+                <tr>
+                  <td>Intress</td>
+                  <td id="js-intr"></td>
+                </tr>
+                <tr>
+                  <td>Lepingutasu</td>
+                  <td id="js-fee"></td>
+                </tr>
+                <tr>
+                  <td>Igakuine haldustasu</td>
+                  <td id="js-feeM"></td>
+                </tr>
+                <tr>
+                  <td>Periood</td>
+                  <td id="js-prd"></td>
+                </tr>
+                <tr>
+                  <td>Projektimaksumus</td>
+                  <td id="js-ppmnt"></td>
+                </tr>
+                <tr>
+                  <td>Sissemakse</td>
+                  <td id="js-pmnt-inpt">0 €</td>
+                </tr>
+                <tr>
+                  <td>Krediit</td>
+                  <td id="js-crdt">0 €</td>
+                </tr>
+              <tfoot class="brnd-clr_bg">
+                <tr>
+                  <td class="bold">Kuumakse</td>
+                  <td id="js-sum" class="txt-clr_1 fnt-16">0 €</td>
+                </tr>
+               </tbody>
+              </tfoot>
+            </table>
+          </section>
+        </div><!---.grid-->
+        <section class="txt-cntr">
+          <button type="submit">Esitan taotluse &#62;</button>
+        </section>
+      </form> <!---form end-->
+      <div class="md-modal"> <!---modal-->
+        <div class="md-content">
+          <p>Andmed edastud! <br>Kohe-kohe, suuname avalehele. </p>
+        </div>
+      </div>
+      <div class="md-overlay">&nbsp;</div><!---modal ennd-->
+    </section>
+    <!---.wrp end-->
+  </body>
+  <script type="text/javascript">
+    var rangeValueDef = document.getElementById("rangeValue");
+    fetch('https://anuvi.me/demos/energia/k.json')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            
+
+            appendData(data);
+        })
+        .catch(function (err) {
+            console.log('error: ' + err);
+        });
+    
+       var rangeValueDef = document.getElementById("rangeValue");
+       var projectSumData = document.getElementById('js-ppmnt');
+       let pmnt = document.getElementById('js-pmnt');
+       let pmntData = document.getElementById('js-pmnt-inpt');
+       let crdtData = document.getElementById('js-crdt');
+       let allSumData = document.getElementById('js-sum');
+
+       function emptyFields(){
+             //Table and first payment values to 0
+            var v1= pmntData.innerHTML="0 € ";
+            var v2=crdtData.innerHTML = "0 €";
+            var v3=pmnt.value = " ";
+            var v4=crdtData.innerHTML="0 €"
+            var v5= allSumData.innerHTML="0 €";           
+
+             return [v1, v2, v3, v3, v4, v5];
+       }
+    
+    
+    function appendData(data) {
+        //Choices inside #js-pckt-lst
+        
+        let packetList = document.getElementById("js-pckt-lst");
+        let packetNames = Object.keys(data);
+        for (let i = 0; i < packetNames.length; i++) {
+            let li = document.createElement("li");
+            let label = document.createElement("label");
+            let input = document.createElement("input");
+            label.dataset.for=packetNames[i];
+            li.setAttribute("class", "flx-itm_li");
+            input.setAttribute("class", "ch-bx");
+            input.setAttribute("type", "checkbox"); 
+            input.setAttribute.name=packetNames[i];
+            input.setAttribute("id", i);
+            label.innerHTML = packetNames[i];
+            packetList.appendChild(li);
+            li.appendChild(input);
+            li.appendChild(label);
+         //the first one is checked
+               var first = document.querySelector('input[type=checkbox]');
+               first.checked=true;
+               first.parentNode.classList.add('brnd-clr_bg');
+            
+                formData("0", data);
+           //slider position
+               const rangeV = document.getElementById("rangeValue");
+                
+                rangeV.innerHTML = `<span>${5000}</span>`;
+                rangeV.style.left=`calc(${19.0283}% + (${16.1943}px))`;
+                rangeV.style.top = `${-30}px`;
+               
+        }
+
+       //adding click event to packages
+        document.querySelectorAll('.ch-bx').forEach(item => {
+            item.addEventListener('click', event => {
+                var thisPackage= event.target.id
+                var clickedPackage = document.getElementById(`${thisPackage}`);
+                allPackages=document.querySelectorAll('.ch-bx');
+                for (i=0; i < allPackages.length; i++){
+                    if(i!=thisPackage){
+                        allPackages[i].checked=false;
+                        allPackages[i].parentNode.classList.remove('brnd-clr_bg');
+                        allPackages[i].classList.remove('brnd-clr_bg_drk1');
+
+                    } else{
+                        clickedPackage.checked=true;
+                        clickedPackage.parentNode.classList.add('brnd-clr_bg');
+                        clickedPackage.classList.add('brnd-clr_bg_drk1');
+                    }
+         
+                } 
+                
+                
+                //Table and first payment values to 0
+                var emptFlds = emptyFields();
+
+                //data for form and table
+                formData(thisPackage, data);
+
+            })
+            
+        })
+
+        //data for form and table
+        function formData (thisPackage, data){
+        
+            
+            let rangeMin;
+            let rangeMax;
+            let rangeValue;
+            var rangeInput= document.querySelector("input[type=range]");
+            let periodDefault;
+            var selectPeriod = document.getElementById("js-prd-slct");
+            let periodMin;
+            let periodMax;
+            let periodDeault;
+            var periodInput;
+            const levels = Object.values(data)[thisPackage].Level;
+            var feeData = document.getElementById('js-fee');
+            var feeMData = document.getElementById('js-feeM');
+            var intressData = document.getElementById('js-intr');
+            var periodData = document.getElementById('js-prd');
+            let infoTable =[];
+            
+           
+            //slider values 
+            rangeMin = Object.values(data)[thisPackage].KrediitMin;
+            //console.log(rangeMin);
+            rangeMax = Object.values(data)[thisPackage].KrediitMax;
+            rangeValue = Object.values(data)[thisPackage].VaikeKr;
+            periodDefault = Object.values(data)[thisPackage].VaikePr;
+
+            rangeInput.setAttribute("min", rangeMin);
+            rangeInput.setAttribute("max", rangeMax);
+            rangeInput.setAttribute("value", rangeValue);
+        
+            rangeValueDef.innerHTML=rangeValue;
+             //slider position?      //probably nonsens
+          
+            var newValue = Number( (rangeValue - rangeMin) * 100 / (rangeMax - rangeMin) );
+            var newPosition = 10 - (newValue * 0.2);
+             rangeValueDef.innerHTML = `<span>${rangeValue}</span>`;
+            rangeValueDef.style.left = `calc(${newValue}% + (${newPosition}px))`;
+            rangeValueDef.style.top = `${-30}px`;
+            
+          
+            // if has Levels-key intress is array
+            var hasLevels = Object.values(data)[thisPackage].hasOwnProperty('Level');
+            if(hasLevels == true){
+                var previousLevel = parseInt(rangeValue);
+                 rangeValueToNumber = parseInt(rangeValue);
+                 for (let index = 0; index < levels.length; index++) {
+                     const element = levels[index];
+                     
+                     if(rangeMin <= rangeValueToNumber && rangeValueToNumber <=element){
+                        
+                         infoTable=giveMeData(data, thisPackage, index);
+                         
+                         break; 
+                     }
+                     previousLevel = element;
+                     
+                 }
+                  //console.log(infoTable);
+            } else{
+                infoTable.lenght=0;
+                infoTable=giveMeData(data, 0, 0);
+               
+               
+            }
+
+            
+            //Period Choices
+          
+            periodMin = Object.values(data)[thisPackage].PerioodMin;
+            periodMax = infoTable[3];
+            periodDefault = Object.values(data)[thisPackage].VaikePr;
+            //deleting existing childnodes
+            while (selectPeriod.firstChild) {
+                selectPeriod.removeChild(selectPeriod.firstChild);
+            }
+             for (var i = periodMin; i <= periodMax; i+= 6) {
+            periodInput = document.createElement('option');
+            periodInput.innerHTML = i + " kuud";
+            periodInput.setAttribute("value", i);
+            
+            if (i==periodDefault){
+                periodInput.setAttribute("selected", i);
+                var selected = selectPeriod.options[selectPeriod.selectedIndex];
+               
+            }
+            selectPeriod.appendChild(periodInput);
+
+             }
+            // values  to the table
+            intressData.innerHTML=infoTable[0] + " %"; 
+            feeData.innerHTML=infoTable[1]+ " €";
+            feeMData.innerHTML=infoTable[2] +  " €";
+            periodData.innerHTML=selectPeriod.value+ " kuud";
+            projectSumData.innerHTML=rangeValue+ " €";
+
+
+             //changes   
+             //period chang
+            selectPeriod.addEventListener('change', function(e){
+               var  upValue =  e.target.value;
+               periodData.innerHTML=upValue + " kuud";
+               var a = rangeInput.value;
+               var b = pmnt.value;
+                 //afraid to eraise
+               if(!isNaN(b) && !b==" "){
+                  
+                var upCredit = creditSum(a, b);
+              crdtData.innerHTML = upCredit +" €";
+              var infoTable = changesComing (upCredit);
+              intressData.innerHTML=infoTable[0]+" %"; 
+              feeData.innerHTML=infoTable[1]+ " €";
+              feeMData.innerHTML=infoTable[2]+" €";
+
+               var paymentMonthly = allSum(upCredit, infoTable[0], infoTable[1], infoTable[2], selectPeriod.value);
+               allSumData.innerHTML = paymentMonthly+ " €";
+               }
+               
+
+            });
+
+           
+            //slider change
+            rangeInput.addEventListener('change', function(e){
+               var  upValue =  e.target.value;
+               rangeValueDef.setAttribute('value', upValue);
+               projectSumData.innerHTML=upValue + " €";
+               var b = pmnt.value;
+             
+                var upCredit = creditSum(upValue, b );
+              
+
+               
+              crdtData.innerHTML = upCredit +" €";
+              var infoTable = changesComing (upCredit);
+              intressData.innerHTML=infoTable[0]+" %"; 
+              feeData.innerHTML=infoTable[1]+ " €";
+              feeMData.innerHTML=infoTable[2]+" €";
+
+               var paymentMonthly = allSum(upCredit, infoTable[0], infoTable[1], infoTable[2], selectPeriod.value);
+              
+               allSumData.innerHTML = paymentMonthly+ " €";
+          
+            
+            });
+
+            //first payment change
+            pmnt.addEventListener('change', function(e){
+
+               var  upValue =  e.target.value;
+               var a = rangeInput.value;
+               pmntData.innerHTML=upValue + " €";  
+               var upCredit = creditSum(a, upValue);
+        
+
+               
+              crdtData.innerHTML = upCredit +" €";
+              var infoTable = changesComing (upCredit);
+              intressData.innerHTML=infoTable[0]+" %"; 
+              feeData.innerHTML=infoTable[1]+ " €";
+              feeMData.innerHTML=infoTable[2]+" €";
+
+               var paymentMonthly = allSum(upCredit, infoTable[0], infoTable[1], infoTable[2], selectPeriod.value);
+              
+               allSumData.innerHTML = paymentMonthly+ " €";
+              
+
+              });
+        
+        
+            function creditSum(a, b ) {
+               console.log(a, b);
+                var a= parseInt(a);
+                var b = parseFloat(b);
+                var c = a - b;
+                //helpless attempt
+                if (isNaN(c)){
+                    c=0;
+                   
+                }
+                
+                return c;
+                   
+               }
+
+              //something changed- let's do the math
+            function changesComing (upCredit){
+               
+              console.log(levels);
+             
+              if(hasLevels==true){
+                
+                var indexS=0;
+                
+                for (let index = 0; index < levels.length; index++) {
+                     var element = levels[index];
+                     console.log(element);
+                     //not sure about this mess - afraid to delete
+                     if(i<levels.lenght){
+                        var j = index+1;
+                     } else{
+                         console.log(levels.lenght);
+                     }
+                 
+                  
+                     var nextEl = levels[j];
+                 
+                      //mess end
+                   
+                     if(element<=upCredit){
+                        
+                         indexS = index+1;
+                
+                       
+                     } 
+
+                    
+                     
+                 }
+                
+                 infoTable=giveMeData(data, thisPackage, indexS);
+                 
+                 } else{
+                infoTable.lenght=0;
+                infoTable=giveMeData(data, 0, 0);
+                
+               
+                }
+                return infoTable;
+          
+                }
+
+
+             //monthly payment
+            function allSum(credit, intress, fee, monthlyFee, periodData ){
+                   var periodtoInt= parseInt(periodData);
+                   var howMuchIntress_1 = parseFloat(credit/periodtoInt);
+                   var howMuchIntress_2 = parseFloat((credit*intress/100)/periodtoInt);
+                   var howMuchIntress_3 = parseFloat(howMuchIntress_1+howMuchIntress_2);
+                   var allTogether = parseFloat(howMuchIntress_3+monthlyFee).toFixed(2);;
+                  return allTogether;
+            }
+
+            //sendingform
+            var formSending = document.getElementById('js-form');
+              formSending.addEventListener('submit', (event) => {
+                         // stop form submission
+                event.preventDefault();
+                // data control and sending
+               var mdl = document.querySelector('.md-modal');
+               console.log(mdl);
+               mdl.classList.add("md-show");
+               window.setTimeout(function(){
+
+                
+                window.location.reload();
+
+                }, 3000);
+                            });
+                            
+            
+
+        } //formData end
+
+       
+
+    } // appendData end
+
+
+
+    //slider from the Internet
+    const rangeInputs = document.querySelectorAll('input[type="range"]')
+const numberInput = document.querySelector('input[type="number"]')
+
+function handleInputChange(e) {
+  let target = e.target
+  if (e.target.type !== 'range') {
+    target = document.getElementById('range')
+  } 
+  const min = target.min
+  const max = target.max
+  const val = target.value
+  var rangeV = document.getElementById("rangeValue");
+      newValue = Number( (val - min) * 100 / (max - min) ),
+      newPosition = 20 - (newValue * 0.2);
+
+    rangeV.innerHTML = `<span>${val}</span>`;
+    rangeV.style.left = `calc(${newValue}% + (${newPosition}px))`;
+    rangeV.style.top = `${-30}px`;
+  target.style.backgroundSize = (val - min) * 100 / (max - min) + '% 100%';
+  
+}
+
+rangeInputs.forEach(input => {
+  input.addEventListener('input', handleInputChange)
+})
+
+
+
+  
+function giveMeData(data, thisPackage, index){
+    var intrs;
+    var fee;
+    var feeM;
+    var perMax;
+    var prr=[];
+    
+
+   
+    if(thisPackage==1){
+            
+            intrs = Object.values(data)[thisPackage].Intress[index]
+            
+        
+            if(index == 0){
+                fee = Object.values(data)[thisPackage].Tasu[0];
+            } else {
+                fee = Object.values(data)[thisPackage].Tasu[1];
+            }
+            feeM = Object.values(data)[thisPackage].Haldustasu;
+            if(index == 2){
+                perMax = Object.values(data)[thisPackage].PerioodMax[1];
+            } else {
+                perMax= Object.values(data)[thisPackage].PerioodMax[0];
+            }
+            prr.length = 0;
+            prr.push(intrs, fee,feeM,perMax);
+            
+            return prr;
+          
+        } else if(thisPackage==4){
+    
+            intrs = Object.values(data)[thisPackage].Intress[index]
+            fee = Object.values(data)[thisPackage].Tasu[index];
+            feeM = Object.values(data)[thisPackage].Haldustasu;
+            if(index == 2){
+                perMax = Object.values(data)[thisPackage].PerioodMax[1];
+            } else {
+                perMax= Object.values(data)[thisPackage].PerioodMax[0];
+            }
+         
+            prr.push(intrs, fee,feeM,perMax);
+            return prr;
+        } else if(thisPackage == 3){
+        
+       
+        console.log(thisPackage+"k");
+            intrs = Object.values(data)[thisPackage].Intress[index]
+            
+        
+            if(index == 0){
+                fee = Object.values(data)[thisPackage].Tasu[0];
+            } else {
+                fee = Object.values(data)[thisPackage].Tasu[1];
+            }
+            feeM = Object.values(data)[thisPackage].Haldustasu;
+            if(index == 2){
+                perMax = Object.values(data)[thisPackage].PerioodMax[1];
+            } else {
+                perMax= Object.values(data)[thisPackage].PerioodMax[0];
+            }
+     
+            prr.push(intrs, fee,feeM,perMax);
+     
+            return prr;
+        } else if(thisPackage == 2){
+       
+       
+            intrs = Object.values(data)[thisPackage].Intress[index]
+            
+        
+            if(index == 0){
+                fee = Object.values(data)[thisPackage].Tasu[0];
+            } else {
+                fee = Object.values(data)[thisPackage].Tasu[1];
+            }
+           
+            if(index == 0 || index == 1){
+                feeM = Object.values(data)[thisPackage].Haldustasu[0];
+            } else {
+                feeM = Object.values(data)[thisPackage].Haldustasu[1];
+            }
+            if(index == 3){
+                perMax = Object.values(data)[thisPackage].PerioodMax[1];
+            } else {
+                perMax= Object.values(data)[thisPackage].PerioodMax[0];
+            }
+           
+            prr.push(intrs, fee,feeM,perMax);
+            return prr;
+        } else{
+     
+           intrs = Object.values(data)[0].Intress;
+           fee = Object.values(data)[0].Tasu;
+           feeM = Object.values(data)[0].Haldustasu;
+           perMax= Object.values(data)[0].PerioodMax;
+           
+           prr.push(intrs, fee,feeM,perMax);
+            
+           return prr;
+           
+    }
+  
+}
+console.clear();
+  
+    </script>
+</html>
