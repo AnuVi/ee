@@ -1,0 +1,457 @@
+/*=GENERAL*************************************************************************************/
+:root{
+    --clr-d-gr:#34b233;
+    --clr-d-bl:#ebf5fa;
+    --clr-lght-bl:#f7fbfb;
+    --clr-txt-gry: #4a5663;
+    --clr-wht:#fff;
+    --clr-r:red;
+    --clr-bl:#ccc;
+
+
+}
+
+body{
+    color: var(--clr-txt-gry);
+    background-color: var(--clr-d-bl);
+    font-family: "Gill Sans", sans-serif;
+    font-size: 14px;
+    line-height:1.4em;
+}
+
+.wrp{
+    margin:3% 10%;
+    background-color: var(--clr-wht);
+    padding: 2.5%;
+}
+ul{
+    list-style-type:none;
+    padding-inline: unset;
+    margin-bottom: 4%;
+}
+
+.packetList{
+    height: 120px;
+   
+    
+}
+/*=GENERAL END*************************************************************************************/
+
+/*=FLEX/GRID*******************************************************************************/
+.flx{
+    display:flex;
+    flex-wrap: wrap;
+  
+    
+}
+
+ul.flx{
+       gap: 2%;
+       justify-content: space-between;
+       align-items: center;
+
+}
+
+
+
+.flx_2{
+    display: flex;
+    flex-wrap:nowrap;
+    justify-content: space-between;
+
+}
+
+.grid{
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 4%;
+    align-items: baseline;
+    
+  
+   
+}
+
+.flx-itm_li{
+    height:50px;
+    flex:0 1 auto;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    display:grid;
+    place-items: center; 
+   padding:1%;
+   text-align:center;
+    
+}
+
+
+
+.grid .flx{
+    gap: 2%;
+    width:100%;
+}
+
+.grid .flx .flx-itm_fldset{
+    flex:1 1 auto;
+    display: grid;
+    row-gap: 1em;
+    border:none;
+    padding:0;
+    margin:0;
+    justify-content: space-between;
+     align-items: stretch;
+
+    
+}
+
+/*=FLEX/GRID END*******************************************************************************/
+
+/*=INPUTS********************************************************************************/
+
+fieldset > input, fieldset>select{
+    width:180px;
+}
+
+form.grid section:nth-child(2){
+    justify-content: space-between;
+}
+
+
+
+.flx-itm_li input[type="checkbox"]{
+    /*visibility: hidden;
+    border:#e2e2e3 2px solid;*/
+    accent-color:var(--clr-d-gr);
+    text-align: center;
+display: table-cell;
+vertical-align: middle;
+appearance:transparent;
+
+    
+}
+
+.flx-itm_li input[type='checkbox']:checked:after {
+     content: '\2713';
+      color:white;
+      font-weight: bold;
+display: block;
+margin-top: -0.48em;
+font-size: 16px;
+}
+
+.flx-itm_li input[type="checkbox"]:before{
+    
+    color: var(--clr-wht);
+    
+}
+
+.flx-itm_li label{
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+fieldset>select, fieldset>input, p>input{
+    border-top:1px solid var(--clr-bl);
+    border-right:1px solid var(--clr-bl);
+    border-left:1px solid var(--clr-bl);
+    border-bottom: 1px solid var(--clr-txt-gry);
+    background-color: var(--clr-lght-bl);
+    
+    
+}
+ 
+input.n-arrws::-webkit-outer-spin-button, 
+input.n-arrws::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+     margin: 0;
+    }
+
+ fieldset > input:hover, p > input:hover{
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  
+}
+
+fieldset>select, fieldset>input{
+height:30px;
+}
+
+button[type="submit"]{
+    background-color: var(--clr-d-gr);
+    color:var(--clr-wht);
+    padding: 1% 2%;
+    border: 1px solid var(--clr-d-gr);
+    font-weight: bold;
+    border-radius:0.5em;
+}
+
+button[type="submit"]:hover {
+    outline: 0;
+    background-color: #288a28;
+    }
+
+
+
+fieldset>select:focus-visible, fieldset>input:focus-visible, p>input:focus-visible{
+    border:0;
+    outline: none;
+    border-bottom: 1px solid var(--clr-txt-gry);
+
+}
+
+div.grid{
+    margin-bottom: 6%;
+}
+
+/*=INPUTS END********************************************************************************/
+
+
+/*=SLIDER**************************************************************************************/
+
+.rng-wrp{
+    width: 100%;
+position: relative;
+}
+
+.rng-vl{
+position: absolute;
+top: -110%;
+}
+.rng-vl span{
+width: 40px;
+height: 24px;
+line-height: 24px;
+text-align: center;
+background: var(--clr-d-gr);
+color: #fff;
+font-size: 12px;
+display: block;
+position: absolute;
+font-weight:bold;
+left: 50%;
+transform: translate(-50%, 0);
+border-radius: 6px;
+}
+.rng-vl span:before{
+content: "";
+position: absolute;
+width: 0;
+height: 0;
+border-top: 10px solid var(--clr-d-gr);
+border-left: 5px solid transparent;
+border-right: 5px solid transparent;
+top: 100%;
+left: 50%;
+margin-left: -5px;
+margin-top: -1px;
+}
+input[type='range'] {
+overflow: hidden;
+width: 100%;
+-webkit-appearance: none;
+background-color: var(--clr-d-bl);
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+width: 100%;
+height: 11px;
+cursor: pointer;
+border-radius: 6px;
+/*background-color: var(--clr-d-gr);*/
+/*margin-top: -1px;*/
+}
+
+input[type='range']::-webkit-slider-thumb {
+width: 25px;
+height: 25px;
+border-radius: 50%;
+-webkit-appearance: none;
+cursor: ew-resize;
+margin-top:-6px;
+background-color:var(--clr-d-gr);
+box-shadow: -20rem 0 0 20rem var(--clr-d-gr);
+}
+
+/*=SLIDER END**************************************************************************************/
+/*=TABLE **************************************************************************************/
+table{
+    border-collapse: collapse;
+    width: 98%;
+}
+
+table tr{
+    height: 28.4px;
+}
+tr td:nth-child(2){
+    text-align: right;
+    font-weight: bold;
+    
+}
+
+hr{
+    border: none;
+    border-top: 1px solid var(--clr-bl);
+    margin-bottom:2%;
+}
+
+.rng-wrp, .flx_2, .grid > section >h4{
+    margin-bottom:6%;
+}
+
+
+
+/*=TABLE end**************************************************************************************/
+
+/*=MODAL *******************************************************************/
+.md-modal{
+position:fixed;
+top:30%;
+left:25%;
+width:50%;
+max-width:650px;
+min-height:320px;
+height: auto;
+z-index:2000;
+visibility:hidden;
+backface-visibility:hidden; 
+transform: translatex(-50%;) translate(-50%);
+}
+
+
+
+.md-show{
+visibility:visible;
+
+}
+
+.md-overlay{
+position:fixed;
+width:100%;
+height:100%;
+visibility:hidden;
+top:0;
+left:0;
+z-index:1000;
+opacity: 0;
+background-color:var(--clr-lght-bl);
+
+
+
+}
+
+.md-show ~.md-overlay{
+opacity:1;
+visibility:visible;
+
+}
+
+.md-content {
+-webkit-transform: scale(0.8);
+-moz-transform: scale(0.8);
+-ms-transform: scale(0.8);
+transform: scale(0.8);
+opacity: 0;
+-webkit-transition: all 0.3s;
+-moz-transition: all 0.3s;
+transition: all 0.3s;
+text-align: center;
+}
+
+
+.md-show ~ .md-overlay {
+background-color:var(--clr-d-bl);
+opacity:0.9;
+} 
+
+
+.md-content {
+background: transparent;
+}
+
+.md-show .md-content {
+-webkit-transform: scale(1);
+-moz-transform: scale(1);
+-ms-transform: scale(1);
+transform: scale(1);
+opacity: 1;
+
+}
+/*=MODAL end*******************************************************************/
+
+/*=TEXT & COLOR**************************************************************************************/
+
+.txt-cntr{
+    text-align: center;
+}
+
+.fnt-16{
+    font-size: 1rem;
+}
+
+/*colors*/
+.brnd-clr_bg{
+    background-color: var(--clr-d-bl);
+}
+
+.brnd-clr_bg_drk1{
+    background-color:var(--clr-d-gr);
+
+}
+
+tr:nth-child(even), .brnd-clr_bg_lght {
+    background-color: var(--clr-lght-bl);
+}
+
+.cmpl{
+    color:var(--clr-r);
+}
+
+.txt-clr_1{
+    color:var(--clr-d-gr);
+}
+.bld{
+    font-weight: bold;
+}
+
+/*=TEXT/COLOR END**************************************************************************************/
+
+@media  screen and (min-width: 770px) and  (max-width: 1042px){
+    .flx-itm_li{
+        flex: 1 1 auto;
+        margin-bottom: 4%;
+        padding: 4%;
+
+    }
+
+}
+
+
+
+
+@media  screen and (max-width: 769px) and (max-width: 769px) {
+    .wrp{
+        margin-left: 20px;
+        margin-right:20px;
+    }
+    
+    .flx-itm_li{
+        flex: 1 1 auto;
+        margin-bottom:2%;
+        padding: 4%;
+
+    }
+   .grid{
+    grid-template-columns: none;
+    grid-auto-flow: row;
+}
+
+fieldset > select, section.flx{
+    margin-bottom: 10%;
+}
+
+
+}
+
+/*=MEDIA END**************************************************************************************/
