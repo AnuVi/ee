@@ -1,0 +1,68 @@
+{
+		"Päikesepaneelid": {
+			"KrediitMin": 300,
+			"KrediitMax":25000,
+			"Intress": 7.90,
+			"Tasu": 50,
+			"Haldustasu": 1,
+			"PerioodMin": 6,
+			"PerioodMax":120,
+			"VaikeKr": 5000,
+			"VaikePr": 60
+		},
+		"Soojuspumbad": {
+				"KrediitMin": 300,
+				"KrediitMax": 25000,
+				"Level":[1999, 5999, 25000],
+				"Intress": [7.90, 6.50, 5.90],
+				"Tasu": [30,20],
+				"Haldustasu": 1,
+				"PerioodMin": 6,
+			    "PerioodMax":[72, 120],
+				"VaikeKr": 1000,
+				"VaikePr": 48
+				
+			},
+		"Elektritööd või gaasitööd": {
+				"KrediitMin": 300,
+				"KrediitMax": 25000,
+				"Level":[999, 1999, 5999, 25000],
+				"Intress": [9.90, 8.90, 7.50, 6.90],
+				"Tasu": [30,20],
+				"Haldustasu": [1,0],
+				"PerioodMin": 6,
+			    "PerioodMax":[72, 120],
+				"VaikeKr": 1000,
+				"VaikePr": 48
+				
+			},
+		"Off-Grid võrguvaba <br> elekter": {
+				"KrediitMin": 300,
+				"KrediitMax": 25000,
+				"Level":[1999, 5999, 25000],
+				"Intress": [7.90, 6.50, 5.90],
+				"Tasu": [30,20],
+				"Haldustasu": 0,
+				"PerioodMin": 6,
+			    "PerioodMax":[72, 120],
+				"VaikeKr": 5000,
+				"VaikePr": 60
+				
+			},
+		"Elektriautode <br> laadimislahendused": {
+				"KrediitMin": 300,
+				"KrediitMax": 25000,
+				"Level":[1999, 5999, 25000],
+				"Intress": [5.90, 4.50, 3.90],
+				"Tasu": [50,40,30],
+				"Haldustasu": 2,
+				"PerioodMin": 6,
+			    "PerioodMax":[72,120],
+				"VaikeKr": 1000,
+				"VaikePr": 48
+				
+			}
+		
+
+	
+}
